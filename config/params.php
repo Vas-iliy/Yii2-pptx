@@ -5,4 +5,5 @@ return [
     'directoryTmp' => __DIR__.'/../web/files/tmp',
     'directoryImage' => __DIR__.'/../web/files/images',
     'directoryPdf' => __DIR__.'/../web/files/pdf',
+    'libreoffice' => __DIR__.'/../libreoffice/program/soffice.exe',
 ];
