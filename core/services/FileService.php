@@ -10,8 +10,11 @@ class FileService
     public function create(FileForm $form)
     {
         $file = UploadedFile::getInstance($form, 'file');
-        if ($file = UploadFilesService::createPptx($file)) {
-
+        if ($file = UploadFilesService::createFile($file)) {
+            if (strpos($file, '.pptx')) {
+                $file = UploadFilesService::createTmpPdf($file);
+            }
         }
+        return false;
     }
 }
