@@ -49,7 +49,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 '' => 'site/index',
-                'files' => 'site/file'
+                'file' => 'site/file'
             ],
         ],
 
