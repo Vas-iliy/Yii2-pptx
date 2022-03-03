@@ -27,6 +27,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $this->view->title = 'Home';
         $form = new FileForm();
         if ($this->request->isPost && $form->load($this->request->post())) {
             if ($this->service->create($form)) {
@@ -43,6 +44,7 @@ class SiteController extends Controller
 
     public function actionFile()
     {
+        $this->view->title = 'Files';
         $dataProvider = FileRepository::getAll();
         return $this->render('file', [
             'dataProvider' => $dataProvider,
