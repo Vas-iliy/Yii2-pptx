@@ -14,20 +14,20 @@ class UploadFilesService
         } else {
             $dir = \Yii::$app->params['directoryTmp'];
         }
-        if (!is_dir($dir)) {
-            mkdir($dir);
-        }
+        self::isDir($dir);
         $file_name = uniqid() . '_' . $file->baseName . '.' . $file->extension;
-        $file->saveAs($dir . $file_name);
-        return $dir . $file_name;
+        $file->saveAs($dir.'/'.$file_name);
+        return $dir.'/'.$file_name;
     }
 
     public static function createTmpPdf(string $pptx): string
     {
         $libreoffice = \Yii::$app->params['libreoffice'];
         $path = \Yii::$app->params['directoryTmp'];
+        self::isDir($path);
         $conv = exec($libreoffice.' --headless --convert-to pdf --outdir '.$path.' '.$pptx);
-        return str_replace('.pptx', '.pdf', $pptx);
+        $pdf = str_replace(\Yii::$app->params['directoryPptx'], \Yii::$app->params['directoryTmp'], str_replace('.pptx', '.pdf', $pptx));
+        return $pdf;
     }
 
     public static function createImagesAndPdf(string $pdf): array
@@ -43,11 +43,18 @@ class UploadFilesService
                 $pdfOne = new Imagick($page);
                 $image->setImageFormat('png');
                 $pdfOne->setImageFormat('pdf');
-                $image->writeImage(\Yii::$app->params['directoryImage'].$file_name.'__'.($i+1).'.png');
-                $pdfOne->writeImage(\Yii::$app->params['directoryPdf'].$file_name.'__'.($i+1).'.pdf');
+                $image->writeImage(\Yii::$app->params['directoryImage'].'/'.$file_name.'__'.($i+1).'.png');
+                $pdfOne->writeImage(\Yii::$app->params['directoryPdf'].'/'.$file_name.'__'.($i+1).'.pdf');
                 $name[] = $file_name.'__'.($i+1).'.png';
             }
         }
         return $name;
+    }
+
+    private static function isDir(string $dir)
+    {
+        if (!is_dir($dir)) {
+            mkdir($dir);
+        }
     }
 }

@@ -27,15 +27,13 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $form = new FileForm();
-        if ($this->request->isPost) {
-            if ($form->load($this->request->post()) && $form->validate()) {
-                if ($this->service->create($form)) {
-                    \Yii::$app->session->setFlash('success', 'File uploaded.');
-                    return $this->redirect('/file');
-                }
-                \Yii::$app->session->setFlash('error', 'Error');
-                return $this->refresh();
+        if ($this->request->isPost && $form->load($this->request->post())) {
+            if ($this->service->create($form)) {
+                \Yii::$app->session->setFlash('success', 'File uploaded.');
+                return $this->redirect('/file');
             }
+            \Yii::$app->session->setFlash('error', 'Error');
+            return $this->refresh();
         }
         return $this->render('index', [
             'model' => $form,

@@ -6,7 +6,7 @@ use yii\db\ActiveRecord;
 
 class File extends ActiveRecord
 {
-    public function rules()
+    public static function tableName()
     {
         return 'files';
     }
