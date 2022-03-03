@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'directoryPptx' => Yii::getAlias('@web/files/pptx'),
-    'directoryTmpFiles' => Yii::getAlias('@web/files/tmp'),
-    'directoryImages' => Yii::getAlias('@web/files/images'),
-    'directoryPdf' => Yii::getAlias('@web/files/pdf'),
+    'directoryPptx' => __DIR__.'/../web/files/pptx',
+    'directoryTmp' => __DIR__.'/../web/files/tmp',
+    'directoryImage' => __DIR__.'/../web/files/images',
+    'directoryPdf' => __DIR__.'/../web/files/pdf',
 ];
