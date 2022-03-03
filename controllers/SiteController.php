@@ -2,16 +2,19 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\filters\AccessControl;
+use app\core\forms\FileForm;
+use app\core\services\FileService;
 use yii\web\Controller;
-use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
+    private $service;
+
+    public function __construct($id, $module,FileService $service, $config = [])
+    {
+        $this->service = $service;
+        parent::__construct($id, $module, $config);
+    }
     public function actions()
     {
         return [
@@ -23,6 +26,19 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $form = new FileForm();
+        if ($this->request->isPost) {
+            if ($form->load($this->request->post()) && $form->validate()) {
+                if ($this->service->create($form)) {
+                    \Yii::$app->session->setFlash('success', 'File uploaded.');
+                    return $this->redirect('/file');
+                }
+                \Yii::$app->session->setFlash('error', 'Error');
+                return $this->refresh();
+            }
+        }
+        return $this->render('index', [
+            'model' => $form,
+        ]);
     }
 }
